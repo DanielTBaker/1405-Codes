@@ -24,7 +24,7 @@ def template_match(template, z, off_gates = None, method='Nelder-Mead'):
         Profile to match the template to
 
     off_gates :
-        indices of the off pulse in z. If not provided, assume gatess below the median are off pulse.
+        indices of the off pulse in z. If not provided, assume gatess below the median are off pulse. Used to estimate errors.
 
     method :
         Method to use in scipy.optimize.minimize in the chisquare minimization. Nelder-Mead typically performs well, given a reasonable initial guess.
@@ -64,9 +64,9 @@ def template_match(template, z, off_gates = None, method='Nelder-Mead'):
 
 def shift(z, dt):
     """
-    Sub-bin alignment
+    Sub-bin shifting
 
-    returns z shifted by dt in units of phase (ie., dt=1 returns the same z).
+    returns z shifted by dt in units of cycle (ie., dt=1 returns the same z).
 
     Arguments
     ---------
