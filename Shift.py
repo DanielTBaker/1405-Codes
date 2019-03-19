@@ -13,6 +13,8 @@ def template_match(template, z, off_gates = None, method='Nelder-Mead'):
 
     Returns delta_t, error in delta_t, scale, and baseline shift needed to match the profile with the provided template.
 
+    Fang Xi Lin, Rob Main, 2019
+
     Arguments
     ----------
     template : np_array
@@ -44,6 +46,12 @@ def template_match(template, z, off_gates = None, method='Nelder-Mead'):
         z_var = np.sum(np.var(z[off_gates])) # variance in the off pulse, for chisquare purposes
     else:
         z_var = np.sum(np.var(z[z<np.median(z)]))
+
+    # cross-correlate profiles, take peak bin to get starting guess
+    profcorr = np.fft.irfft( np.fft.rfft(z) * np.fft.rfft(template).conj() )
+    x = np.fft.fftfreq(len(template))
+    xguess = [x[np.argmax(profcorr)], 1.]
+
     xguess = [0.,1.]
     minchisq = minimize(chi_check, x0=xguess, args=(z_f,z_var,template_f,freqs,ngates),method=method)
     if minchisq.success != True:
