@@ -52,7 +52,6 @@ def template_match(template, z, off_gates = None, method='Nelder-Mead'):
     x = np.fft.fftfreq(len(template))
     xguess = [x[np.argmax(profcorr)], 1.]
 
-    xguess = [0.,1.]
     minchisq = minimize(chi_check, x0=xguess, args=(z_f,z_var,template_f,freqs,ngates),method=method)
     if minchisq.success != True:
         print('Chi square minimization failed to converge. !!BEWARE!!')
